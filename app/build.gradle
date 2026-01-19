@@ -1,0 +1,102 @@
+```groovy
+// Root level build.gradle file
+
+// This file is the primary configuration for the build system for the Android project.
+// It uses the Gradle build system which is optimized for managing dependencies and build configurations 
+// in a modularized manner. Make sure to configure this file properly for seamless builds across 
+// various environments.
+
+buildscript {
+    // Define the repositories used to fetch dependencies required for the build
+    repositories {
+        google() // Google's Maven repository for Android artifacts
+        mavenCentral() // Central Maven repository for additional libraries
+    }
+    // Specify the Gradle plugin used for building the Android application
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.0' // Android Gradle plugin for project building
+    }
+}
+
+allprojects {
+    // Define the repositories for all modules within the project
+    repositories {
+        google() // Google's Maven repository
+        mavenCentral() // Central repository for dependency resolution
+    }
+}
+
+task clean(type: Delete) {
+    // Task to clean build outputs for a fresh build
+    delete rootProject.buildDir
+}
+```
+
+```groovy
+// Module level build.gradle file for the 'app' module
+
+apply plugin: 'com.android.application'
+
+// Set the application ID which uniquely identifies the application on the Play Store
+android {
+    compileSdk 33 // The latest SDK version to ensure compatibility with the latest features
+
+    defaultConfig {
+        applicationId "com.madhub.igautoreplytool" // Unique identifier for the app
+        minSdk 21 // Minimum SDK version the app will support
+        targetSdk 33 // Targeted SDK version for optimal app performance
+        versionCode 1 // Version code for internal tracking
+        versionName "1.0.0" // User-friendly version name
+        resConfigs "en" // Specify English as the language resource configuration
+    }
+
+    buildTypes {
+        release {
+            // Configure release build type settings
+            minifyEnabled false // Disable code shrinking for initial releases
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' // ProGuard configuration
+        }
+    }
+
+    // Configure build features to enable data binding, view binding, etc.
+    buildFeatures {
+        viewBinding true // Enable view binding for easier UI component access
+    }
+}
+
+dependencies {
+    // Implementation dependencies provide the necessary libraries for app functionality
+    implementation 'androidx.appcompat:appcompat:1.6.1' // Provides backward-compatible features for modern UI components.
+    implementation 'com.google.android.material:material:1.9.0' // Material design components for consistent UI.
+
+    // Retrofit for network requests, suitable for managing API interactions in the automation tool.
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0' 
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // Gson converter for handling JSON data.
+
+    // Room for database management; keeps track of user settings and automated messages efficiently.
+    implementation 'androidx.room:room-runtime:2.5.0'
+    annotationProcessor 'androidx.room:room-compiler:2.5.0' // Annotation processor for Room DB.
+
+    // Coroutines for managing background tasks; essential for handling asynchronous operations without blocking the UI.
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
+
+    // Dependency injection for enhancing modularity; facilitates better management of dependencies throughout the app.
+    implementation 'com.google.dagger:hilt-android:2.42' 
+    kapt 'com.google.dagger:hilt-compiler:2.42' // Annotation processor for Hilt DI.
+
+    // Additional logging library for debugging; ensures easier troubleshooting during development.
+    implementation 'com.squareup.leakcanary:leakcanary-android:2.7' // Detects memory leaks in the application.
+}
+
+// Note: This configuration file is structured to provide a solid foundation for developing the 
+// Ig Auto Reply Tool. It follows best practices in dependency management, ensuring a 
+// modular and scalable architecture while maintaining high performance and code readability. 
+// Continuous automation capabilities are supported by key libraries such as Retrofit and Room, 
+// ensuring smooth integration with social media platforms. 
+``` 
+
+### Key Points:
+1. **Architecture**: Leveraging Gradle's build system allows for modular configurations that enhance maintainability and scalability.
+2. **Dependencies**: Each library is selected to align with the app's purpose of social media automation management, promoting smooth interaction with APIs and efficient data handling.
+3. **Best Practices**: Utilizing tools like Hilt and Coroutines supports clean architecture principles and efficient asynchronous task management, respectively.
+4. **Compliance**: The focus is on legitimate automation and management solutions, avoiding any forms of automation that violate platform terms of service.
